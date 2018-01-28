@@ -1,6 +1,7 @@
 package runeset
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -66,6 +67,13 @@ func TestMakeFromString(t *testing.T) {
 		}
 	}
 
+}
+
+func Example() {
+	s1 := MakeFromString("ABCD")
+	s2 := MakeFromString("BDEF")
+	fmt.Println(s1.Intersection(s2))
+	// Output: Set{B D}
 }
 
 func TestIntersection(t *testing.T) {

@@ -1,5 +1,9 @@
 package runeset
 
+import (
+	"bytes"
+)
+
 // Set represents a set of runes
 type Set map[rune]struct{}
 
@@ -19,6 +23,23 @@ func MakeFromString(chars string) Set {
 		s.Add(c)
 	}
 	return s
+}
+
+func (s Set) String() string {
+	var chars []rune
+	for c := range s {
+		chars = append(chars, c)
+	}
+	var buf bytes.Buffer
+	buf.WriteString("Set{")
+	for i, c := range chars {
+		if i > 0 {
+			buf.WriteByte(' ')
+		}
+		buf.WriteString(string(c))
+	}
+	buf.WriteByte('}')
+	return buf.String()
 }
 
 // Add adds a rune to the set.
