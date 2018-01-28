@@ -46,6 +46,17 @@ func TestAdd_empty(t *testing.T) {
 	}
 }
 
+func TestMake(t *testing.T) {
+	chars := []rune("abc")
+	s := Make(chars...)
+	for _, c := range chars {
+		if res := !s.Has(c); res {
+			t.Errorf(`%q was added, but s.Has(%[1]q) == %v.`, c, res)
+		}
+	}
+
+}
+
 func TestMakeFromString(t *testing.T) {
 	chars := "abc"
 	s := MakeFromString(chars)

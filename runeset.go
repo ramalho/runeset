@@ -3,6 +3,15 @@ package runeset
 // Set represents a set of runes
 type Set map[rune]struct{}
 
+// Make creates and returns a new Set
+func Make(chars ...rune) Set {
+	s := Set{}
+	for _, c := range chars {
+		s.Add(c)
+	}
+	return s
+}
+
 // MakeFromString creates and returns a new Set
 func MakeFromString(chars string) Set {
 	s := Set{}
