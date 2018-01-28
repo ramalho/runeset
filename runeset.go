@@ -2,6 +2,7 @@ package runeset
 
 import (
 	"bytes"
+	"sort"
 )
 
 // Set represents a set of runes
@@ -26,13 +27,14 @@ func MakeFromString(chars string) Set {
 }
 
 func (s Set) String() string {
-	var chars []rune
+	var codes []int
 	for c := range s {
-		chars = append(chars, c)
+		codes = append(codes, int(c))
 	}
+	sort.Ints(codes)
 	var buf bytes.Buffer
 	buf.WriteString("Set{")
-	for i, c := range chars {
+	for i, c := range codes {
 		if i > 0 {
 			buf.WriteByte(' ')
 		}
