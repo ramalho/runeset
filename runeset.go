@@ -32,12 +32,6 @@ func (rs runeSlice) Len() int           { return len(rs) }
 func (rs runeSlice) Less(i, j int) bool { return rs[i] < rs[j] }
 func (rs runeSlice) Swap(i, j int)      { rs[i], rs[j] = rs[j], rs[i] }
 
-func sorted(s string) string {
-	runes := []rune(s)
-	sort.Sort(runeSlice(runes))
-	return string(runes)
-}
-
 // Sorted returns sorted slice with runes from s
 func (s Set) Sorted() []rune {
 	var rs []rune
