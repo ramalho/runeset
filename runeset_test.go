@@ -70,10 +70,10 @@ func TestMakeFromString(t *testing.T) {
 }
 
 func Example() {
-	s1 := MakeFromString("ABCD")
-	s2 := MakeFromString("BDEF")
+	s1 := MakeFromString("1234567")
+	s2 := MakeFromString("86420")
 	fmt.Println(s1.Intersection(s2))
-	// Output: Set{B D}
+	// Output: Set{2 4 6}
 }
 
 func TestIntersection(t *testing.T) {
