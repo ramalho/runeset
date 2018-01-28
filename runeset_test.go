@@ -69,6 +69,15 @@ func TestMakeFromString(t *testing.T) {
 
 }
 
+func TestSorted(t *testing.T) {
+	s := MakeFromString("BADC")
+	got := s.Sorted()
+	want := []rune{'A', 'B', 'C', 'D'}
+	if !reflect.DeepEqual(want, got) {
+		t.Errorf(`Wanted: %v Got: %v`, want, got)
+	}
+}
+
 func Example() {
 	s1 := MakeFromString("1234567")
 	s2 := MakeFromString("86420")
