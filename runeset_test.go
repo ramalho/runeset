@@ -22,6 +22,7 @@ var (
 	O = MakeFromString(odd)
 	P = MakeFromString(prime)
 	F = MakeFromString(fibonacci)
+	S = MakeFromString(singleton)
 	V = MakeFromString(void)
 )
 
@@ -119,12 +120,37 @@ func TestIntersection_table(t *testing.T) {
 		{"even & odd", E, O, V},
 		{"void & universe", V, U, V},
 		{"even & universe", E, U, E},
+		{"sigleton & void", S, V, V},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			got := tc.first.Intersection(tc.second)
 			if !reflect.DeepEqual(tc.want, got) {
 				t.Errorf("got %v; want %v", got, tc.want)
+			}
+		})
+	}
+}
+
+func TestIntersectionUpdate(t *testing.T) {
+	testCases := []struct {
+		name   string
+		receiver  Set
+		other  Set
+		want   Set
+	}{
+		{"even & prime", MakeFromString(even), MakeFromString(prime), MakeFromString("2")},
+		{"even & fibonacci", MakeFromString(even), MakeFromString(fibonacci), MakeFromString("028")},
+		{"even & odd", MakeFromString(even), MakeFromString(odd), Set{}},
+		{"void & universe", Set{}, MakeFromString(universe), Set{}},
+		{"even & universe", MakeFromString(even), MakeFromString(universe), MakeFromString(even)},
+		{"sigleton & void", MakeFromString(singleton), Set{}, Set{}},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			tc.receiver.IntersectionUpdate(tc.other)
+			if !reflect.DeepEqual(tc.want, tc.receiver) {
+				t.Errorf("got %v; want %v", tc.receiver, tc.want)
 			}
 		})
 	}

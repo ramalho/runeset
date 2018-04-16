@@ -66,7 +66,7 @@ func (s Set) Has(r rune) bool {
 	return found
 }
 
-// Intersection returns a new set: the intersection of s and other
+// Intersection returns a new set: the intersection of s AND other
 func (s Set) Intersection(other Set) Set {
 	result := Set{}
 	if len(other) > 0 {
@@ -77,4 +77,14 @@ func (s Set) Intersection(other Set) Set {
 		}
 	}
 	return result
+}
+
+// IntersectionUpdate changes receiver in-place, keeping only
+// elements that are in it AND in other.
+func (s Set) IntersectionUpdate(other Set) {
+	for r := range s {
+		if !other.Has(r) {
+			delete(s, r)
+		}
+	}
 }
