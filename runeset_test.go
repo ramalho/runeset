@@ -91,7 +91,7 @@ func TestIntersection(t *testing.T) {
 	s2 := MakeFromString("bdz")
 	want := MakeFromString("bd")
 	got := s1.Intersection(s2)
-	if !reflect.DeepEqual(want, got) {
+	if !want.Equal(got) {
 		t.Errorf(`Wanted: %v Got: %v`, want, got)
 	}
 
@@ -102,7 +102,7 @@ func TestIntersection_empty(t *testing.T) {
 	s2 := MakeFromString("xyz")
 	want := Set{}
 	got := s1.Intersection(s2)
-	if !reflect.DeepEqual(want, got) {
+	if !want.Equal(got) {
 		t.Errorf(`Wanted: %v Got: %v`, want, got)
 	}
 
@@ -125,7 +125,7 @@ func TestIntersection_table(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			got := tc.first.Intersection(tc.second)
-			if !reflect.DeepEqual(tc.want, got) {
+			if !tc.want.Equal(got) {
 				t.Errorf("got %v; want %v", got, tc.want)
 			}
 		})
@@ -149,8 +149,33 @@ func TestIntersectionUpdate(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			tc.receiver.IntersectionUpdate(tc.other)
-			if !reflect.DeepEqual(tc.want, tc.receiver) {
+			if !tc.want.Equal(tc.receiver) {
 				t.Errorf("got %v; want %v", tc.receiver, tc.want)
+			}
+		})
+	}
+}
+
+func TestEqual(t *testing.T) {
+	testCases := []struct {
+		set1 Set
+		set2 Set
+		want bool
+	}{
+		{Make(), Make(), true},
+		{Make('a'), Make(), false},
+		{Make(), Make('b'), false},
+		{Make('a'), Make('a'), true},
+		{Make('a'), Make('b'), false},
+		{Make('a', 'b'), Make('a', 'b'), true},
+		{Make('a', 'b'), Make('b', 'a'), true},
+		{Make('a', 'b'), Make('a', 'b', 'c'), false},
+	}
+	for _, tc := range testCases {
+		t.Run(fmt.Sprintf("%v eq %v is %v", tc.set1, tc.set2, tc.want), func(t *testing.T) {
+			got := tc.set1.Equal(tc.set2)
+			if !reflect.DeepEqual(tc.want, got) {
+				t.Errorf("%v eq %v -> %v", tc.set1, tc.set2, got)
 			}
 		})
 	}
@@ -165,13 +190,14 @@ func TestCopy(t *testing.T) {
 	for _, set := range testCases {
 		t.Run(fmt.Sprintf("%v.Copy()", set), func(t *testing.T) {
 			clone := set.Copy()
-			if !reflect.DeepEqual(set, clone) {
+			if !set.Equal(clone) {
 				t.Errorf("clone: %v; original: %v", clone, set)
 			}
 			set['z'] = struct{}{}
-			if reflect.DeepEqual(set, clone) {
-				t.Errorf("clone: %v; original: %v", clone, set)
+			if set.Equal(clone) {
+				t.Errorf("After change: clone: %v; original: %v", clone, set)
 			}
 		})
 	}
 }
+

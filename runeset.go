@@ -33,6 +33,28 @@ func MakeFromString(text string) Set {
 	return Make([]rune(text)...)
 }
 
+// Equal reports whether set is equal to other
+func (s Set) Equal(other Set) bool {
+	if len(s) != len(other) {
+		return false
+	}
+	for elem := range s {
+		if _, found := other[elem]; !found {
+			return false
+		}
+	}
+	return true
+}
+
+// Copy returns a new Set: a copy of s.
+func (s Set) Copy() Set {
+	res := Set{}
+	for elem := range s {
+		res[elem] = struct{}{}
+	}
+	return res
+}
+
 // Intersection returns a new set: the intersection of s AND other
 func (s Set) Intersection(other Set) Set {
 	result := Set{}
@@ -54,15 +76,6 @@ func (s Set) IntersectionUpdate(other Set) {
 			delete(s, r)
 		}
 	}
-}
-
-// Copy returns a new Set: a copy of s.
-func (s Set) Copy() Set {
-	res := Set{}
-	for elem := range s {
-		res[elem] = struct{}{}
-	}
-	return res
 }
 
 type runeSlice []rune
