@@ -28,13 +28,13 @@ var (
 
 func TestHas_empty(t *testing.T) {
 	var s Set
-	if s.Has('x') {
+	if s.Contains('x') {
 		t.Errorf(`s is empty, no words should be found.`)
 	}
 }
 
 func TestHas(t *testing.T) {
-	if !E.Has('2') {
+	if !E.Contains('2') {
 		t.Errorf(`2 should be in E (even)`)
 	}
 }
@@ -43,8 +43,8 @@ func TestAdd_empty(t *testing.T) {
 	s := Set{}
 	r := 'x'
 	s.Add(r)
-	if res := !s.Has(r); res {
-		t.Errorf(`%q was added, but s.Has(%[1]q) == %v.`, r, res)
+	if res := !s.Contains(r); res {
+		t.Errorf(`%q was added, but s.Contains(%[1]q) == %v.`, r, res)
 	}
 }
 
@@ -52,8 +52,8 @@ func TestMake(t *testing.T) {
 	chars := []rune("abc")
 	s := Make(chars...)
 	for _, c := range chars {
-		if res := !s.Has(c); res {
-			t.Errorf(`%q was added, but s.Has(%[1]q) == %v.`, c, res)
+		if res := !s.Contains(c); res {
+			t.Errorf(`%q was added, but s.Contains(%[1]q) == %v.`, c, res)
 		}
 	}
 
@@ -63,8 +63,8 @@ func TestMakeFromString(t *testing.T) {
 	chars := "abc"
 	s := MakeFromString(chars)
 	for _, c := range chars {
-		if res := !s.Has(c); res {
-			t.Errorf(`%q was added, but s.Has(%[1]q) == %v.`, c, res)
+		if res := !s.Contains(c); res {
+			t.Errorf(`%q was added, but s.Contains(%[1]q) == %v.`, c, res)
 		}
 	}
 
