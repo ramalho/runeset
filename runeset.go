@@ -88,3 +88,12 @@ func (s Set) IntersectionUpdate(other Set) {
 		}
 	}
 }
+
+// Copy returns a new Set: a copy of s.
+func (s Set) Copy() Set {
+	res := Set{}
+	for elem := range s {
+		res[elem] = struct{}{}
+	}
+	return res
+}

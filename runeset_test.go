@@ -155,3 +155,23 @@ func TestIntersectionUpdate(t *testing.T) {
 		})
 	}
 }
+
+func TestCopy(t *testing.T) {
+	testCases := []Set{
+		Make(),
+		Make('a'),
+		Make('a', 'b'),
+	}
+	for _, set := range testCases {
+		t.Run(fmt.Sprintf("%v.Copy()", set), func(t *testing.T) {
+			clone := set.Copy()
+			if !reflect.DeepEqual(set, clone) {
+				t.Errorf("clone: %v; original: %v", clone, set)
+			}
+			set['z'] = struct{}{}
+			if reflect.DeepEqual(set, clone) {
+				t.Errorf("clone: %v; original: %v", clone, set)
+			}
+		})
+	}
+}
