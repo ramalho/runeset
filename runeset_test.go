@@ -79,13 +79,6 @@ func TestSorted(t *testing.T) {
 	}
 }
 
-func Example() {
-	s1 := MakeFromString("1234567")
-	s2 := MakeFromString("86420")
-	fmt.Println(s1.Intersection(s2))
-	// Output: Set{2 4 6}
-}
-
 func TestIntersection(t *testing.T) {
 	s1 := MakeFromString("abcd")
 	s2 := MakeFromString("bdz")
@@ -201,3 +194,21 @@ func TestCopy(t *testing.T) {
 	}
 }
 
+func Example() {
+	s1 := MakeFromString("1234567")
+	s2 := MakeFromString("86420")
+	fmt.Println(s1.Intersection(s2))
+	// Output: Set{2 4 6}
+}
+
+
+func Example_invertedIndex() {
+	index := make(map[string]Set)
+	index["CHESS"] = Make('♚', '♛', '♜', '♝', '♞', '♟', '♔', '♕', '♖', '♗', '♘', '♙')
+	index["BLACK"] = Make('⚑', '■', '🖤', '★', '☎', '☻', '♚', '♛', '♜', '♝', '♞', '♟', '♠', '♣', '✂', '㉈')
+	index["REGISTERED"] = Make('®')
+	result := index["CHESS"].Intersection(index["BLACK"])
+	fmt.Println(result)
+	// Output:
+	// Set{♚ ♛ ♜ ♝ ♞ ♟}
+}
