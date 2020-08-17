@@ -86,7 +86,7 @@ func (rs runeSlice) Swap(i, j int)      { rs[i], rs[j] = rs[j], rs[i] }
 
 // Sorted returns sorted slice with runes from s
 func (s Set) Sorted() []rune {
-	var rs []rune
+	rs := []rune{}
 	for c := range s {
 		rs = append(rs, c)
 	}
